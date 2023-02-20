@@ -21,6 +21,14 @@ class ChoiceList(generics.ListCreateAPIView):
         queryset = Choice.objects.filter(poll_id=self.kwargs["pk"])
         return queryset
     serializer_class = ChoiceSerializer
-
-class CreateVote(generics.CreateAPIView):
+class CreateVote(APIView):
     serializer_class = VoteSerializer
+    def post(self, request, pk, choice_pk):
+        voted_by = request.data.get("voted_by")
+        data = {'choice': choice_pk, 'poll':pk, 'voted_by':voted_by}
+        serializer = VoteSerializer(data=data)
+        if serializer.is_valid():
+            vote = serializer.save()
+            return Response(serializer.data, status=status.HTTP_2O1_CREATED)
+        else:
+            return  Response(serializer.errors, status=status.HTTP_404_BAD_REQUEST)
