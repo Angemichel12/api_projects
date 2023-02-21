@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import PollList, PollDetail,ChoiceList,CreateVote
+from .views import PollList, PollDetail,ChoiceList,CreateVote, PollViewSet
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register('polls', PollViewSet, basename='polls')
+
+
 
 urlpatterns = [
     path("polls/", PollList.as_view(), name="polls_list"),
