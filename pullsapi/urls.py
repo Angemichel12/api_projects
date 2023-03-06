@@ -20,3 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^', include('polls.urls')),
 ]
+urlpatterns +=[
+    path('auth-api/', include('rest_framework.urls')),
+]
